@@ -5,6 +5,7 @@ import { lane } from './lane.js';
 import { readStatus } from './status.js';
 import type { DigestNight } from './digest/types.js';
 import { Layout } from './views/layout.js';
+import { DigestPage } from './views/digest.js';
 import { StatusBoard } from './views/status.js';
 
 export function createApp(config: RigConfig = loadConfig()) {
@@ -21,6 +22,22 @@ export function createApp(config: RigConfig = loadConfig()) {
       throw error;
     }
     return digest === null ? c.notFound() : c.json(digest);
+  });
+
+  app.get('/digest/:night', (c) => {
+    let digest: DigestNight | null;
+    try {
+      digest = readNight(config.runsDir, c.req.param('night'));
+    } catch (error) {
+      if (error instanceof RangeError) return c.notFound();
+      throw error;
+    }
+    if (digest === null) return c.notFound();
+    return c.html(
+      <Layout title={`digest ${digest.night}`} lane={lane()}>
+        <DigestPage digest={digest} />
+      </Layout>,
+    );
   });
 
   app.get('/', (c) =>

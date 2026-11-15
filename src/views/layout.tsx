@@ -16,6 +16,9 @@ const css = `
   th { color: var(--mute); font-weight: normal; }
   .warn { color: var(--warn); }
   .mute { color: var(--mute); }
+  .digest-table { font-size: .85rem; }
+  .digest-table .flagged { font-weight: bold; }
+  .digest-table td, .digest-table th { vertical-align: top; }
 `;
 
 export function Layout(props: { title: string; lane: Lane; children: Child }) {
