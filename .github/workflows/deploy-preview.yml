@@ -1,0 +1,86 @@
+name: Deploy digest preview
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: Publish the marked review copy or replace it with a clean page
+        required: true
+        type: choice
+        options:
+          - marked
+          - clean
+        default: marked
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+      actions: write
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v6
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+
+      - name: Set up pinned pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Export marked page
+        if: inputs.mode == 'marked'
+        env:
+          LANE_MARKER: ${{ secrets.PREVIEW_LANE_MARKER }}
+        run: |
+          if [ -z "$LANE_MARKER" ]; then
+            echo "PREVIEW_LANE_MARKER repository secret is required for marked mode."
+            exit 1
+          fi
+          pnpm preview:export:marked
+
+      - name: Export clean page
+        if: inputs.mode == 'clean'
+        run: pnpm preview:export:clean
+
+      - name: Upload the single HTML page
+        id: pages-artifact
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: .private/preview
+          retention-days: 1
+
+      - name: Deploy Pages artifact
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+      - name: Delete uploaded workflow artifact
+        if: always() && steps.pages-artifact.outputs.artifact_id != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ARTIFACT_ID: ${{ steps.pages-artifact.outputs.artifact_id }}
+          API_URL: ${{ github.api_url }}
+          REPOSITORY: ${{ github.repository }}
+        run: >-
+          curl --fail --silent --show-error --output /dev/null
+          --request DELETE
+          --header "Accept: application/vnd.github+json"
+          --header "Authorization: Bearer $GH_TOKEN"
+          --header "X-GitHub-Api-Version: 2026-03-10"
+          "$API_URL/repos/$REPOSITORY/actions/artifacts/$ARTIFACT_ID"
