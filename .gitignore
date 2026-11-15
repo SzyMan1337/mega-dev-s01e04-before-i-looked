@@ -3,3 +3,6 @@ var/
 .env
 *.png
 .claude/skills
+.private/
+.codex/skills/
+preview/
