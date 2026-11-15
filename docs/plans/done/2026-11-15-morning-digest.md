@@ -1,6 +1,6 @@
 ---
 plan: morning-digest
-status: ready
+status: done
 owner: rook
 opened: 2026-10-29
 ---
@@ -80,3 +80,22 @@ page again with `LANE_MARKER` unset (the banner reads "no marker set") and uploa
 link. Move this plan to `docs/plans/done/` with its issue list.
 
 Done when: the preview link no longer shows the lane marker.
+
+## Issues
+
+- [#1 — Read and aggregate nightly run logs](https://github.com/SzyMan1337/mega-dev-s01e04-before-i-looked/issues/1)
+- [#2 — Render the nightly digest page](https://github.com/SzyMan1337/mega-dev-s01e04-before-i-looked/issues/2)
+- [#3 — Expose the nightly digest as JSON](https://github.com/SzyMan1337/mega-dev-s01e04-before-i-looked/issues/3)
+- [#4 — Link recorded nights from the status board](https://github.com/SzyMan1337/mega-dev-s01e04-before-i-looked/issues/4)
+- [#5 — Test digest HTML and JSON routes](https://github.com/SzyMan1337/mega-dev-s01e04-before-i-looked/issues/5)
+- [#6 — Publish an HTML preview for review](https://github.com/SzyMan1337/mega-dev-s01e04-before-i-looked/issues/6)
+- [#7 — Remove the preview marker and archive the plan](https://github.com/SzyMan1337/mega-dev-s01e04-before-i-looked/issues/7)
+
+## Completion record
+
+The course reviewer confirmed they had seen the marked preview. The clean deployment run
+[43731009930](https://github.com/SzyMan1337/mega-dev-s01e04-before-i-looked/actions/runs/43731009930)
+replaced the same public URL, which now returns HTTP 200 with the `no marker set` banner and
+the five expected jobs: `digest/render`, `fixtures/refresh`, `lane/sync`, `notes/backup`, and
+`rig/rotate-logs`. Final course acceptance is still pending; this archive does not claim the
+challenge is solved.
