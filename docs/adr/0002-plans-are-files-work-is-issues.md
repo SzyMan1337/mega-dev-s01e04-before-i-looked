@@ -20,3 +20,18 @@ top to bottom by a single agent, including the parts that should have waited.
 
 - Anyone, human or agent, picks up a plan cold from the repo alone.
 - The split is the plan's real review. A bad split is a bad plan.
+
+## Approved issue contract
+
+The student approved these fields during the morning-digest split review:
+
+- Start the body with `Source: plan.md § <section>`.
+- Include `Scope`, `Done when`, `Blocked by`, and `Validation` sections.
+- Apply `plan:morning-digest` to issues for this plan.
+- Use real issue numbers for dependencies and checkable evidence for each done condition.
+- Record the worker, model, effort and commit in the closing comment specified by `AGENTS.md`.
+
+A preview issue that waits for an external reviewer stays open until that reviewer confirms
+they have looked. Link submission alone does not meet that condition. Cleanup waits for
+that review and the separate human approval to overwrite the public page. These conditions
+incorporate the course feedback received during this plan's execution.

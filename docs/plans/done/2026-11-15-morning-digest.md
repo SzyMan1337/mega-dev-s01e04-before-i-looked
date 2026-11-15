@@ -97,5 +97,5 @@ The course reviewer confirmed they had seen the marked preview. The clean deploy
 [43731009930](https://github.com/SzyMan1337/mega-dev-s01e04-before-i-looked/actions/runs/43731009930)
 replaced the same public URL, which now returns HTTP 200 with the `no marker set` banner and
 the five expected jobs: `digest/render`, `fixtures/refresh`, `lane/sync`, `notes/backup`, and
-`rig/rotate-logs`. Final course acceptance is still pending; this archive does not claim the
-challenge is solved.
+`rig/rotate-logs`. The course accepted S01E04 on 2026-11-15 after the final submission.
+The [debrief](https://hq.mega.dev/challenges/before-i-looked#debrief) is saved on the course page.
